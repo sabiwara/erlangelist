@@ -17,6 +17,15 @@ defmodule Helper do
     read_array(array, index + 1, size)
   end
 
+  def read_vector(vector, size), do: read_vector(vector, 0, size)
+
+  defp read_vector(vector, index, index), do: vector
+
+  defp read_vector(vector, index, size) do
+    A.Vector.at!(vector, index)
+    read_vector(vector, index + 1, size)
+  end
+
   def read_map(map, size), do: read_map(map, 0, size)
 
   defp read_map(map, index, index), do: map
@@ -60,12 +69,14 @@ data =
   Bench.run(fn size ->
     list = Enum.to_list(0..(size - 1))
     array = :array.from_list(list)
+    vector = A.Vector.new(list)
     map = list |> Enum.with_index() |> Enum.into(%{}, fn {val, index} -> {index, val} end)
     tuple = List.to_tuple(list)
 
     [
       list: fn _ -> Helper.read_list(list, size) end,
       array: fn _ -> Helper.read_array(array, size) end,
+      vector: fn _ -> Helper.read_vector(vector, size) end,
       map: fn _ -> Helper.read_map(map, size) end,
       tuple: fn _ -> Helper.read_tuple(tuple, size) end
     ]

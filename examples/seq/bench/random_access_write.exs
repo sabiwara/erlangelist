@@ -13,6 +13,13 @@ defmodule Helper do
   defp write_array(array, index, size),
     do: write_array(:array.set(index, :new, array), index + 1, size)
 
+  def write_vector(vector, size), do: write_vector(vector, 0, size)
+
+  defp write_vector(vector, index, index), do: vector
+
+  defp write_vector(vector, index, size),
+    do: write_vector(A.Vector.replace_at!(vector, index, :new), index + 1, size)
+
   def write_map(map, size), do: write_map(map, 0, size)
 
   defp write_map(map, index, index), do: map
@@ -52,12 +59,14 @@ data =
   Bench.run(fn size ->
     list = Enum.to_list(0..(size - 1))
     array = :array.from_list(list)
+    vector = A.Vector.new(list)
     map = list |> Enum.with_index() |> Enum.into(%{}, fn {val, index} -> {index, val} end)
     tuple = List.to_tuple(list)
 
     [
       list: fn _ -> Helper.write_list(list, size) end,
       array: fn _ -> Helper.write_array(array, size) end,
+      vector: fn _ -> Helper.write_vector(vector, size) end,
       map: fn _ -> Helper.write_map(map, size) end,
       tuple: fn _ -> Helper.write_tuple(tuple, size) end
     ]

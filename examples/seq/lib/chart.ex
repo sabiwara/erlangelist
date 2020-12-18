@@ -3,9 +3,9 @@ defmodule Chart do
     Application.put_env(:gnuplot, :timeout, {0, :ms})
 
     titles = Enum.map(data, fn {title, _} -> to_string(title) end)
-    colors = ~w/black dark-green blue dark-khaki dark-violet gray40/
-    pts = [4, 5, 6, 7, 12, 13]
-    dts = [1, 2, 3, 4, 5, 6]
+    colors = ~w/black dark-green blue dark-khaki dark-violet gray40 pink/
+    pts = [4, 5, 6, 7, 12, 13, 14]
+    dts = [1, 2, 3, 4, 5, 6, 7]
 
     plots =
       [titles, colors, pts, dts]

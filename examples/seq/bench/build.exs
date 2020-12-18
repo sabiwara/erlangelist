@@ -12,6 +12,13 @@ defmodule Helper do
   defp build_array(array, index, size),
     do: build_array(:array.set(index, index, array), index + 1, size)
 
+  def build_vector(size), do: build_vector(A.Vector.new(), 0, size)
+
+  defp build_vector(vector, index, index), do: vector
+
+  defp build_vector(vector, index, size),
+    do: build_vector(A.Vector.append(vector, index), index + 1, size)
+
   def build_map(size), do: build_map(%{}, 0, size)
 
   defp build_map(map, index, index), do: map
@@ -20,16 +27,26 @@ defmodule Helper do
     do: build_map(Map.put(map, index, index), index + 1, size)
 end
 
+incremental? = false
+
 data =
   Bench.run(fn size ->
-    [
-      {"list", fn _ -> Helper.build_list(size) end},
-      {"array", fn _ -> Helper.build_array(size) end},
-      {"array from list", &:array.from_list/1, init: &Helper.build_list/1},
-      {"map from list", &Map.new/1, init: fn size -> Enum.map(0..(size - 1), &{&1, &1}) end},
-      {"map", fn _ -> Helper.build_map(size) end},
-      {"tuple from list", &List.to_tuple/1, init: &Helper.build_list/1}
-    ]
+    benches = if incremental? do
+      [
+        {"array", fn _ -> Helper.build_array(size) end},
+        {"vector", fn _ -> Helper.build_vector(size) end},
+        {"map", fn _ -> Helper.build_map(size) end}
+      ]
+    else
+      [
+        {"array from list", &:array.from_list/1, init: &Helper.build_list/1},
+        {"vector from list", &A.Vector.new/1, init: &Helper.build_list/1},
+        {"map from list", &Map.new/1, init: fn size -> Enum.map(0..(size - 1), &{&1, &1}) end},
+        {"tuple from list", &List.to_tuple/1, init: &Helper.build_list/1}
+      ]
+    end
+
+    [{"list", fn _ -> Helper.build_list(size) end} | benches]
   end)
 
 {"list", list_times} = Enum.find(data, &match?({"list", _values}, &1))
@@ -51,10 +68,12 @@ data =
     end
   )
 
+title = if incremental? do "incremental build" else "build from list" end
+
 Chart.build(
   data,
   commands: [
-    [:set, :title, "incremental build"],
+    [:set, :title, title],
     [:set, :xlabel, "sequence size"],
     [:set, :format, :x, "%.0s%c"],
     [:set, :format, :y, "%.0s%cs"],
