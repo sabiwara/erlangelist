@@ -1,5 +1,5 @@
 %{
-  "aja": {:hex, :aja, "0.4.5", "f37fdee927475c2f4f6ddec8f05e58692c43093d508303edad5bf510c0e79a68", [:mix], [{:jason, "~> 1.0", [hex: :jason, repo: "hexpm", optional: true]}], "hexpm", "1f850f6fad0c53d1ea238f64d8b3844b986d8a414eedd95ff1faa936be58075e"},
+  "aja": {:git, "https://github.com/sabiwara/aja", "a06a27fe6767eaa47d65c06243d1e3b2b3500d3b", [branch: "main"]},
   "earmark_parser": {:hex, :earmark_parser, "1.4.12", "b245e875ec0a311a342320da0551da407d9d2b65d98f7a9597ae078615af3449", [:mix], [], "hexpm", "711e2cc4d64abb7d566d43f54b78f7dc129308a63bc103fbd88550d2174b3160"},
   "ex_doc": {:hex, :ex_doc, "0.23.0", "a069bc9b0bf8efe323ecde8c0d62afc13d308b1fa3d228b65bca5cf8703a529d", [:mix], [{:earmark_parser, "~> 1.4.0", [hex: :earmark_parser, repo: "hexpm", optional: false]}, {:makeup_elixir, "~> 0.14", [hex: :makeup_elixir, repo: "hexpm", optional: false]}], "hexpm", "f5e2c4702468b2fd11b10d39416ddadd2fcdd173ba2a0285ebd92c39827a5a16"},
   "gnuplot": {:hex, :gnuplot, "1.20.320", "7e8930911bd48615a43925e01b2822312b8735a56689dd373b2775341014d966", [:mix], [{:ex_doc, "~> 0.23.0", [hex: :ex_doc, repo: "hexpm", optional: false]}], "hexpm", "0996291ec1395552d774f57d6bc986cb60a08032546bc4c13c3e15ab0c1d0215"},

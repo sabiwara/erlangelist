@@ -20,7 +20,7 @@ defmodule Seq.MixProject do
   defp deps do
     [
       {:gnuplot, "~> 1.20"},
-      {:aja, "~> 0.4.5"}
+      {:aja, git: "https://github.com/sabiwara/aja", branch: "main"}
     ]
   end
 end
