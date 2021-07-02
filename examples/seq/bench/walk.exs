@@ -22,7 +22,7 @@ defmodule Helper do
   end
 
   def walk_vector_sum(vector) do
-    A.Vector.sum(vector)
+    A.Enum.sum(vector)
   end
 
   def walk_map(map, size), do: walk_map(map, 0, size, 0)
@@ -50,14 +50,14 @@ data =
 
     # list doesn't have the overhead of a lambda, adding two extra data points:
     # - `list foldl` to measure the overhead of a lambda for lists
-    # - `vector sum` to measure without the overhead of a lambda for a vector
+    # - `vector` (A.Enum.sum) to measure without the overhead of a lambda for a vector
     [
       {"list", fn _ -> Helper.walk_list(list) end},
       {"list foldl", fn _ -> Helper.walk_list_foldl(list) end},
-      {"array", fn _ -> Helper.walk_array(array) end},
-      {"vector", fn _ -> Helper.walk_vector(vector) end},
-      {"vector sum", fn _ -> Helper.walk_vector_sum(vector) end},
-      {"map", fn _ -> Helper.walk_map(map, size) end},
+      {"array foldl", fn _ -> Helper.walk_array(array) end},
+      {"vector foldl", fn _ -> Helper.walk_vector(vector) end},
+      {"vector", fn _ -> Helper.walk_vector_sum(vector) end},
+      # {"map", fn _ -> Helper.walk_map(map, size) end},
       {"tuple", fn _ -> Helper.walk_tuple(tuple, size) end}
     ]
   end)
